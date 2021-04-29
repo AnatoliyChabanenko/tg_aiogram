@@ -34,8 +34,9 @@ async def send_all():
     subscriptions = db.get_subscriptions()
     prise = read_json()
     data = datetime.today().strftime("%d.%m.%Y")
+
     for user in subscriptions:
-        await bot.send_message(user[1], f'Ціна станом на {data}\n\n{prise}\n\n{text.prise()}', disable_notification=True)
+        await bot.send_message(user[1], text.prise_rozsilka(data,prise), disable_notification=True)
 
 
 def admin_validate(message: types.Message)-> bool:
@@ -46,12 +47,16 @@ def admin_validate(message: types.Message)-> bool:
 
 def user_subskribe(message: types.Message) ->bool:
     user = db.get_user(message.from_user.id)
-    if user[0][2] == 1:
-        return True
+    print(user)
+    if db.get_user(message.from_user.id):
+        user = db.get_user(message.from_user.id)
+        if user[0][2] == 1:
+            return True
 
 def read_json():
     utput_json = json.load(open('data1.json'))
     return ("\n".join("🌿{}\t{}грн/т".format(k, v) for k, v in utput_json.items()))
+
 def vremya():
     data = datetime.now().hour
     if 8 < int(data) < 17 :

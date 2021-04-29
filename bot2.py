@@ -90,6 +90,10 @@ async def new_admin(message: types.Message):
         db.add_admin(str(message["text"].split()[1]))
 
 
+# @dp.message_handler(commands=['new_admin1'])
+# async def new_admin(message: types.Message):
+#     db.add_admin(str(message["text"].split()[1]))
+
 async def my_parsing(wait_for):
     while True:
         await asyncio.sleep(wait_for)
